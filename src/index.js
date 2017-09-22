@@ -5,6 +5,7 @@ import './index.css';
 import 'semantic-ui-css/semantic.min.css';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import decode from 'jwt-decode';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './App';
@@ -18,8 +19,11 @@ const store = createStore(
 );
 
 if (localStorage.bookwormJWT) {
+  const payload = decode(localStorage.bookwormJWT);
   const user = {
-    token: localStorage.bookwormJWT
+    token: localStorage.bookwormJWT,
+    email: payload.email,
+    confirmed: payload.confirmed
   };
   store.dispatch(userLoggedIn(user));
 }

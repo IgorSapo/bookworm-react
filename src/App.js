@@ -6,18 +6,39 @@ import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashboardPage';
 import SignupPage from './components/pages/SignupPage';
-import UserRoute from './components/routes/UserRoute.jsx';
-import GuestRoute from './components/routes/GuestRoute.jsx';
+import ConfirmationPage from './components/pages/ConfirmationPage';
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
+import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import UserRoute from './components/routes/UserRoute';
+import GuestRoute from './components/routes/GuestRoute';
 
 const App = ({ location }) => (
   <Container>
     <Route location={location} exact path="/" component={HomePage} />
+    <Route
+      location={location}
+      exact
+      path="/confirmation/:token"
+      component={ConfirmationPage}
+    />
     <GuestRoute location={location} exact path="/login" component={LoginPage} />
     <GuestRoute
       location={location}
       exact
       path="/signup"
       component={SignupPage}
+    />
+    <GuestRoute
+      location={location}
+      exact
+      path="/forgot_password"
+      component={ForgotPasswordPage}
+    />
+    <GuestRoute
+      location={location}
+      exact
+      path="/reset_password/:token"
+      component={ResetPasswordPage}
     />
     <UserRoute
       location={location}
