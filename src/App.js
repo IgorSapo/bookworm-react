@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Container } from 'semantic-ui-react';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
@@ -9,11 +10,14 @@ import SignupPage from './components/pages/SignupPage';
 import ConfirmationPage from './components/pages/ConfirmationPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import NewBookPage from './components/pages/NewBookPage';
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
+import TopNavigation from './components/navigation/TopNavigation';
 
-const App = ({ location }) => (
+const App = ({ location, isAuthenticated }) => (
   <Container>
+    {isAuthenticated && <TopNavigation />}
     <Route location={location} exact path="/" component={HomePage} />
     <Route
       location={location}
@@ -46,13 +50,24 @@ const App = ({ location }) => (
       path="/dashboard"
       component={DashboardPage}
     />
+    <UserRoute
+      location={location}
+      exact
+      path="/books/new"
+      component={NewBookPage}
+    />
   </Container>
 );
 
 App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
-export default App;
+const mapStateToProps = state => ({
+  isAuthenticated: !!state.user.email
+});
+
+export default connect(mapStateToProps)(App);
